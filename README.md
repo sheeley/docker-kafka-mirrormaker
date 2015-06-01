@@ -19,6 +19,7 @@ The container expects the following environment variables to be passed in:
 * `CONSUMER_GROUP_ID` - (optional) Defaults to 1
 * `PRODUCER_COUNT` - (optional) Defaults to 1
 * `STREAM_COUNT` - (optional) Defaults to 1
+
 <!-- * `ABORT_ON_FAILURE` - (optional) Kill MirrorMaker on failure. Defaults to true.
 * `OFFSET_COMMIT_INTERVAL` - (optional) Defaults to 60000 -->
 
