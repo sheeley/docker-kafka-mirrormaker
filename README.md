@@ -24,7 +24,7 @@ The container expects the following environment variables to be passed in:
 * `OFFSET_COMMIT_INTERVAL` - (optional) Defaults to 60000 -->
 
 ### Command
-`docker run -e WHITE_LIST "*" sheeley/docker-kafka-mirrormaker`
+`docker run -e WHITE_LIST="topic" -e CONSUMER_ZK_CONNECT=localhost:2181/chroot -e DOWNSTREAM_BROKERS=127.0.0.1:9092 sheeley/docker-kafka-mirrormaker`
 
 ## Building
 `docker build -t sheeley/docker-kafka-mirrormaker .`

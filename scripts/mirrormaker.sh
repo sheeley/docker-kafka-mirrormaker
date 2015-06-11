@@ -2,7 +2,8 @@ DEFAULT_PRODUCERS=1
 DEFAULT_STREAMS=1
 # DEFAULT_OFFSET_COMMIT_INTERVAL=60000
 # DEFAULT_ABORT_ON_FAILURE="true"
-DEFAULT_GROUP_ID=1
+DEFAULT_GROUP_ID="KafkaMirror"
+DEFAULT_OFFSET_RESET="largest"
 
 if [ -n "$WHITE_LIST" ]; then
     WHITE_LIST="--whitelist $WHITE_LIST"
@@ -20,6 +21,10 @@ if [ -z "$STREAM_COUNT" ]; then
     STREAM_COUNT=$DEFAULT_STREAMS
 fi
 
+if [ -z "$OFFSET_RESET" ]; then
+    OFFSET_RESET=$DEFAULT_OFFSET_RESET
+fi
+
 # if [ -z "$ABORT_ON_FAILURE" ]; then
 #     ABORT_ON_FAILURE=DEFAULT_ABORT_ON_FAILURE
 # fi
@@ -29,7 +34,7 @@ fi
 # fi
 
 if [ -z "$CONSUMER_GROUP_ID" ]; then
-    CONSUMER_GROUP_ID=DEFAULT_GROUP_ID
+    CONSUMER_GROUP_ID=$DEFAULT_GROUP_ID
 fi
 
 if [ -z "$CONSUMER_ZK_CONNECT" ]; then
@@ -46,13 +51,13 @@ fi
 cat <<- EOF > ~/consumer.config
     zookeeper.connect=$CONSUMER_ZK_CONNECT
     group.id=$CONSUMER_GROUP_ID
+    auto.offset.reset=$CONSUMER_OFFSET_RESET
 EOF
 
 
 cat <<- EOF > ~/producer.config
-    broker.list=$DOWNSTREAM_BROKERS
+    metadata.broker.list=$DOWNSTREAM_BROKERS
 EOF
-
 
 /bin/ash -C /opt/kafka/bin/kafka-run-class.sh kafka.tools.MirrorMaker \
 --consumer.config ~/consumer.config \
